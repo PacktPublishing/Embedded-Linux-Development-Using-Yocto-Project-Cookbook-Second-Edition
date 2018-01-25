@@ -1,0 +1,6 @@
+USER_CLASSES ?= "buildstats"
+
+cd /opt/yocto/fsl-community-bsp/wandboard/
+/opt/yocto/fsl-community-bsp/sources/poky/scripts/pybootchartgui/pybootchartgui.py tmp/buildstats/ -o /tmp
+
+

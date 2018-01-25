@@ -1,0 +1,18 @@
+cd /opt/yocto/fsl-community-bsp
+MACHINE=wandboard DISTRO=poky source setup-environment wandboard
+bitbake core-image-minimal
+
+ACCEPT_FSL_EULA = "1"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/images/wandboard/
+sudo bmaptool copy --nobmap core-image-minimal-wandboard.wic.gz /dev/sdN
+
+sudo apt-get install bmap-tools
+
+sudo umount /dev/sdN
+
+
+

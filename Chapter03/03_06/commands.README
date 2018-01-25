@@ -1,0 +1,4 @@
+recipetool appendfile </path/to/layer> </path/to/file/in/target> <newfile>
+
+recipetool appendfile /opt/yocto/fsl-community-bsp/sources/meta-custom/ /etc/network/interfaces interfaces-new
+

@@ -1,0 +1,18 @@
+DISTRO_FEATURES_remove = "wayland"
+
+IMAGE_INSTALL_append = " gtk-helloworld"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-sato
+
+export DISPLAY=:0
+/usr/bin/helloworld
+
+IMAGE_INSTALL_append = " qt-helloworld"
+
+bitbake core-image-sato
+
+export DISPLAY=:0
+/usr/bin/qt_hello_world
+

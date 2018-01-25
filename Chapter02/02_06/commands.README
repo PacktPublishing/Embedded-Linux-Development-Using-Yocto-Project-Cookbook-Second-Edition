@@ -1,0 +1,44 @@
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+cd /opt/yocto/linux-wandboard
+cp /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x/wandboard-custom/defconfig arch/arm/configs/wandboard_defconfig
+make wandboard_defconfig
+make -jN
+
+unset LDFLAGS
+
+make modules
+make dtbs
+
+cp arch/arm/boot/zImage arch/arm/boot/dts/imx6qp-wandboard-revd1.dtb /var/lib/tftpboot
+
+make LOADADDR=0x10800000 uImage
+
+sudo apt-get install u-boot-tools
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake -c cleanall virtual/kernel
+
+bitbake -c configure virtual/kernel
+bitbake -c menuconfig virtual/kernel
+bitbake -c devshell virtual/kernel
+
+bitbake -C compile virtual/kernel
+
+cd tmp/deploy/images/wandboard/
+cp zImage-wandboard.bin zImage-imx6qp-wandboard-revd1.dtb /var/lib/tftpboot
+
+bootz <kernel_addr> - <dtb_addr>
+
+tftp ${loadaddr} ${image}
+tftp ${fdt_addr} ${fdtfile}
+bootz ${loadaddr} - ${fdt_addr}
+
+env set bootargs 'root=PARTUUID=<uuid> rootwait rw console=ttymxc0,115200'
+bootm <kernel_addr> - <dtb_addr>
+
+git add --all .
+git commit -s -m "Well thought commit message"
+
+git format-patch -1 -o /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x
+

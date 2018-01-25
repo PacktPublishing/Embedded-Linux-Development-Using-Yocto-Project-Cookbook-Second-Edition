@@ -1,0 +1,18 @@
+docker build
+sudo install -o 1000 -g 1000 -d /opt/yocto/docker-yocto-builder
+cd /opt/yocto/docker-yocto-builder
+docker run -it --rm -v $PWD:/home/build yoctocookbook2ndedition/docker-yocto-builder
+
+# Inside the container
+source /opt/yocto/poky/oe-init-build-env qemuarm
+MACHINE=qemuarm bitbake core-image-minimal
+
+docker run -it --rm -v $PWD:/opt/yocto/fsl-community-bsp/build yoctocookbook2ndedition/docker-yocto-builder
+
+# Inside the container
+cd /opt/yocto/fsl-community-bsp/
+mkdir -p wandboard
+MACHINE=wandboard DISTRO=poky source setup-environment build
+bitbake core-image-minimal
+
+

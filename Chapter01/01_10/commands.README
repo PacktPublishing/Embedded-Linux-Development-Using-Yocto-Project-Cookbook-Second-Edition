@@ -1,0 +1,36 @@
+sudo apt-get install tftpd-hpa
+sudo chmod 1777 /var/lib/tftpboot
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/images/wandboard/ 
+cp zImage-wandboard.bin zImage-imx6qp-wandboard-revd1.dtb /var/lib/tftpboot
+
+sudo apt-get install nfs-kernel-server
+cd /opt/yocto/fsl-community-bsp/wandboard
+
+IMAGE_FSTYPES = "wic.gz tar.bz2"
+
+sudo mkdir /nfsroot
+cd /nfsroot
+sudo tar --numeric-owner -x -v -f /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/images/wandboard/core-image-minimal-wandboard.tar.bz2
+
+cd /opt/yocto/fsl-community-bsp/wandboard
+bitbake meta-ide-support
+runqemu-extract-sdk tmp/deploy/images/wandboard/core-image-minimal-wandboard.tar.bz2 /nfsroot/rootfs/
+
+/nfsroot/ *(rw,no_root_squash,async,no_subtree_check)
+
+sudo service nfs-kernel-server restart
+
+env set netload 'tftpboot ${loadaddr} ${image};tftpboot ${fdt_addr} ${fdt_file}'
+env set netargs 'setenv bootargs console=${console} ${optargs} root=/dev/nfs ip=${ipaddr} nfsroot=${serverip}:${nfsroot},v3,tcp'
+env set netboot 'echo Booting from net ...;run netargs;run netload;bootz ${loadaddr} - ${fdt_addr}'
+
+env set ipaddr <static_ip>
+env set serverip <host_ip>
+env set nfsroot /nfsroot
+env set image zImage-wandboard.bin
+env set fdt_file zImage-imx6qp-wandboard-revd1.dtb
+env save
+run netboot
+
+cat /proc/cmdline
+

@@ -1,0 +1,10 @@
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+KERNEL_SRC=/opt/yocto/linux-wandboard make
+
+TOOLCHAIN_TARGET_TASK_append = " kernel-devsrc"
+
+make wandboard_defconfig
+make modules_prepare
+
+bitbake hello-world
+

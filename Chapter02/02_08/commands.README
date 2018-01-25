@@ -1,0 +1,15 @@
+echo 8 > /proc/sys/kernel/printk
+
+dmesg -n 8
+
+#define DEBUG
+
+mount -t debugfs nodev /sys/kernel/debug
+
+echo -n 'file <filename> +p' > /sys/kernel/debug/dynamic_debug/control
+echo -n 'file <filename> line nnnn +p' > /sys/kernel/debug/dynamic_debug/control
+
+awk '$3 != "=_"' /sys/kernel/debug/dynamic_debug/control
+
+env set bootargs 'dyndbg=\\"file one.c +pfl\; file two.c +pfl\; file three.c +pfl\; file four.c +pfl\\"'
+

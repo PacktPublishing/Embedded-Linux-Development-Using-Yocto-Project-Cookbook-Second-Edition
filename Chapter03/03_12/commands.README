@@ -1,0 +1,12 @@
+DISTRO = "poky-tiny"
+
+IMAGE_INSTALL_remove = "sysvinit"
+
+sort -r -g -k 4,4 files-in-image.txt -o sorted-files-in-image.txt
+
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/work/wandboard-poky-linux-gnueabi/core-image-minimal/1.0-r0/rootfs
+/opt/yocto/fsl-community-bsp/sources/poky/scripts/tiny/dirsize.py
+
+VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
+
+TCLIBC = "musl"

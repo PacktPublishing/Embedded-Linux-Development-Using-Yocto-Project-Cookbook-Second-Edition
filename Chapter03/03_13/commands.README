@@ -1,0 +1,28 @@
+env set ipaddr <target-ip-address>
+env set serverip <server-ip-address>
+
+env set image <kernel-image-name>
+env set fdtfile <device tree blob name>
+env set initrd_file <initramfs image name>
+
+tftpboot ${loadaddr} ${image}
+tftpboot ${fdt_addr} ${fdtfile}
+tftpboot ${ramdisk_addr} ${initrd_file}
+
+bootz ${loadaddr} ${ramdiskaddr} ${fdt_addr}
+
+INITRAMFS_IMAGE = "<image name>"
+
+INITRAMFS_IMAGE_BUNDLE = "1"
+
+env set ipaddr <target-ip-address>
+env set serverip <server-ip-address>
+
+env set image <kernel-image-name>
+env set fdtfile <device tree blob name>
+
+tftpboot ${loadaddr} ${image}
+tftpboot ${fdt_addr} ${fdtfile}
+
+bootz ${loadaddr} - ${fdt_addr}
+

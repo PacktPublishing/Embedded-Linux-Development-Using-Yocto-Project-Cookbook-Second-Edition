@@ -1,0 +1,19 @@
+cd /opt/yocto/poky
+ls meta*/recipes*/images/*.bb
+
+cd /opt/yocto/poky/
+source /opt/yocto/poky/oe-init-build-env qemuarm
+MACHINE=qemuarm bitbake core-image-minimal
+
+export MACHINE=qemuarm
+
+MACHINE ?= "qemuarm"
+
+bitbake core-image-minimal
+
+INHERIT += "rm_work"
+RM_WORK_EXCLUDE += "linux-wandboard u-boot-fslc"
+
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+
+runqemu qemuarm core-image-minimal

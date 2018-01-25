@@ -1,0 +1,39 @@
+npm init
+npm install -g .
+nodejs helloworld.js
+
+npm adduser
+npm publish
+
+IMAGE_INSTALL_append = " nodejs"
+
+node --version
+
+node
+
+IMAGE_INSTALL_append = " nodejs-npm"
+
+npm search <package>
+npm install <package>
+npm install -g <package>
+
+devtool add "npm://registry.npmjs.org;name=nodejs-helloworld;version=1.0.1"
+devtool add https://github.com/yoctocookbook2ndedition/nodejs-helloworld.git
+
+IMAGE_INSTALL_append = " nodejs-helloworld"
+
+cd /opt/yocto/fsl-community-bsp/sources
+git clone https://github.com/imyller/meta-nodejs.git
+
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-nodejs
+
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install g++-multilib libssl-dev:i386 libcrypto++-dev:i386 zlib1g-dev:i386
+
+IMAGE_INSTALL_append = " nodejs"
+
+node --version
+
+
+

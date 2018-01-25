@@ -1,0 +1,18 @@
+IMAGE_INSTALL_append = " epiphany"
+
+cd /opt/yocto/fsl-community-bsp/sources
+git clone https://github.com/OSSystems/meta-browser.git
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-browser
+
+IMAGE_INSTALL_append = " firefox"
+
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-openembedded/meta-python
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-openembedded/meta-networking
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-openembedded/meta-gnome
+
+IMAGE_INSTALL_append = " chromium"
+
+BBMASK .= "dynamic-layers/browser-layer/recipes-browser"
+

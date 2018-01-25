@@ -1,0 +1,21 @@
+IMAGE_INSTALL_append = " blktrace"
+
+IMAGE_INSTALL_append = " e2fsprogs-tune2fs e2fsprogs-e2fsck"
+
+e2fsck /dev/mmcblk2p1
+tune2fs -O ^has_journal /dev/mmcblk2p1
+
+mount /dev/mmcblk2p1 /mnt
+blktrace /dev/mmcblk2
+dd if=/dev/urandom of=/mnt/home/root/random-10k-file bs=1k
+
+blkparse mmcblk2
+blktrace /dev/mmcblk2 -o - | blkparse -i -
+btrace /dev/mmcblk2
+
+sudo blktrace -l
+blktrace -d /dev/mmcblk2 -h <host_ip>
+dd if=/dev/urandom of=/mnt/home/root/random-10k-file bs=1k count=10 conv=fsync
+
+blkparse -D <directory-name> mmcblk2
+

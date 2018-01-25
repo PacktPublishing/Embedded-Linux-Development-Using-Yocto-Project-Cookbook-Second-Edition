@@ -1,0 +1,6 @@
+INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-ftpd"
+INITSCRIPT_NAME_${PN}-httpd = "httpd.sh"
+INITSCRIPT_NAME_${PN}-ftpd = "ftpd.sh"
+INITSCRIPT_PARAMS_${PN}-httpd = "defaults"
+INITSCRIPT_PARAMS_${PN}-ftpd = "start 99 5 2 . stop 20 0 1 6 ."
+

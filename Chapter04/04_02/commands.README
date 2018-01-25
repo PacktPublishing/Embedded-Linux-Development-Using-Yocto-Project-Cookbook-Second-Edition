@@ -1,0 +1,37 @@
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+
+bitbake meta-toolchain
+cd tmp/deploy/sdk
+./poky-glibc-x86_64-meta-toolchain-cortexa9hf-neontoolchain-2.4.sh
+
+bitbake core-image-sato -c populate_sdk
+bitbake core-image-sato -c populate_sdk_ext
+
+DISTRO = "fslc-x11"
+
+DISTRO_FEATURES_remove = "wayland"
+
+cd tmp/deploy/sdk
+./poky-glibc-x86_64-core-image-sato-cortexa9hf-neontoolchain-2.4.sh
+./poky-glibc-x86_64-core-image-sato-cortexa9hf-neontoolchain-ext-2.4.sh
+
+IMAGE_INSTALL_append = " libc-staticdev"
+
+bitbake meta-toolchain-qt
+
+cd tmp/deploy/sdk
+./poky-glibc-x86_64-meta-toolchain-qt-cortexa9hf-vfp-neon-toolchain-qt-2.4.sh
+
+bitbake meta-ide-support
+source tmp/environment-setup-cortexa9hf-vfp-neon-poky-linuxgnueabi
+
+SDKIMAGE_FEATURES_append = " staticdev-pkgs"
+
+TOOLCHAIN_TARGET_TASK_append = " libc-staticdev"
+
+BBCLASSEXTEND = "native nativesdk"
+
+RDEPENDS_${PN} += " \
+    nativesdk-<packagename> \
+"

@@ -1,0 +1,47 @@
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake -c cleanall helloworld
+
+bitbake -c devshell helloworld
+
+git init
+git add helloworld.c
+git commit -s -m "Original revision"
+
+bitbake -C compile helloworld
+
+bitbake -e helloworld | grep ^WORKDIR=
+
+scp ${WORKDIR_PATH}/deploy-rpms/cortexa9hf_neon/helloworld-1.0-r0.cortexa9hf_neon.rpm root@<target_ip_address>:/
+
+dnf install /helloworld-1.0-r0.cortexa9hf_neon.rpm
+
+bitbake -c devshell helloworld
+git add helloworld.c
+git commit -s -m "Change greeting message"
+
+git format-patch -1 -o /opt/yocto/fsl-community-bsp/sources/meta-custom/recipes-example/helloworld/helloworld-1.0
+
+SRC_URI = "file://helloworld.c \
+   file://0001-Change-greeting-message.patch"
+
+cd /opt/yocto/
+git clone git://github.com/yoctocookbook2ndedition/helloworld
+
+mkdir -p /opt/yocto/helloworld
+cd /opt/yocto/helloworld
+git init
+
+git add helloworld.c
+
+git commit -s -m "Original revision"
+
+INHERIT += "externalsrc"
+EXTERNALSRC_pn-helloworld = "/opt/yocto/helloworld"
+EXTERNALSRC_BUILD_pn-helloworld = "/opt/yocto/helloworld"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake helloworld
+
+

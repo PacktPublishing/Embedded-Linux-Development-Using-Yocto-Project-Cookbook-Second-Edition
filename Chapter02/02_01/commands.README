@@ -1,0 +1,12 @@
+source setup-environment wandboard
+
+yocto-layer create bsp-custom
+
+${BSPDIR}/sources/meta-bsp-custom \
+
+cd /opt/yocto/fsl-community-bsp/
+MACHINE=wandboard-custom DISTRO=poky source setup-environment wandboard-custom
+
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/
+
+bitbake core-image-minimal

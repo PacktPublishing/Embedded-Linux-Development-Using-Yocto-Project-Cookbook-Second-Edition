@@ -1,0 +1,32 @@
+INHERIT += "buildhistory"
+
+BUILDHISTORY_COMMIT = "1"
+
+BUILDHISTORY_FEATURES = "image"
+
+BUILDHISTORY_IMAGE_FILES += "/path/to/file"
+
+sudo apt-get install python3-django
+sudo apt-get install python-django-registration
+
+cd /opt/yocto/fsl-community-bsp/sources
+git clone git://git.yoctoproject.org/buildhistory-web
+cd buildhistory-web/
+
+python manage.py migrate
+python3 warningmgr/import.py /opt/yocto/fsl-community-bsp/sources/poky/ /opt/yocto/fsl-community-bsp/wandboard/buildhistory/
+
+python manage.py runserver
+
+sudo mkdir /run/workspace
+sudo chown ${USER} /run/workspace/
+cp -r /opt/yocto/fsl-community-bsp/wandboard/buildhistory/ /run/workspace/
+cd /run/workspace/buildhistory/
+
+git rev-parse "HEAD@{1 month ago}" > .git/info/grafts
+git filter-branch
+git clone file://${tmpfs}/buildhistory buildhistory.new
+
+rm -rf buildhistory
+mv buildhistory.new /opt/yocto/fsl-community-bsp/wandboard/buildhistory/
+rm -rf /run/workspace/

@@ -1,0 +1,7 @@
+make ARCH=arm <platform>_defconfig
+make ARCH=arm imx_v6_v7_defconfig
+
+make ARCH=arm help
+
+make ARCH=arm savedefconfig
+

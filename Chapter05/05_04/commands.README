@@ -1,0 +1,12 @@
+IMAGE_INSTALL_append = " strace"
+
+EXTRA_IMAGE_FEATURES += "tools-debug"
+
+IMAGE_INSTALL_append = " procps"
+
+strace -f -t -e sendto /bin/sh -c "ping -c 1 127.0.0.1"
+
+strace -p $( pgrep <program> )
+
+strace $( pgrep <program> | sed 's/^/-p' )
+

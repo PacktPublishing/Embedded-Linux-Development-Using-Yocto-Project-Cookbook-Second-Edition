@@ -1,0 +1,14 @@
+cd /opt/yocto/fsl-community-bsp/sources
+find -name wandboard.conf ./meta-freescale-3rdparty/conf/machine/wandboard.conf
+
+bitbake-layers show-recipes linux-wandboard
+
+find tmp/work -type d -name "linux-wandboard" tmp/work/wandboard-poky-linux-gnueabi/linux-wandboard
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake-layers show-recipes 'linux*'
+
+bitbake-layers show-recipes u-boot-fslc
+
+

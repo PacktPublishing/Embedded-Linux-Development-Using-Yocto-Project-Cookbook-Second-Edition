@@ -1,0 +1,10 @@
+cd /opt/yocto/linux-wandboard
+/opt/yocto/fsl-community-bsp/sources/poky/scripts/tiny/ksum.py
+
+cd /opt/yocto/linux-wandboard
+python2.7 /opt/yocto/fsl-community-bsp/sources/poky/scripts/tiny/ksize.py -d > ksize.log
+
+nm --size-sort --print-size -r vmlinux | head
+
+dmesg | grep -A 3 "text"
+

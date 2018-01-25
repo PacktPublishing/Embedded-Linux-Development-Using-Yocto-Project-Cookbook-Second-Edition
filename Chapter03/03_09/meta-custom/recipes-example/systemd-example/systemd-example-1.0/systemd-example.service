@@ -1,0 +1,9 @@
+[Unit]
+Description=Example service
+
+[Service]
+Type=forking
+ExecStart=@BINDIR@/simple-service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,38 @@
+ls /sys/kernel/debug/tracing/events/
+
+grep 'net' /sys/kernel/debug/tracing/available_events
+
+cat /sys/kernel/debug/tracing/events/net/netif_receive_skb/format
+
+echo 1 > /sys/kernel/debug/tracing/events/net/netif_receive_skb/enable
+echo 1 > /sys/kernel/debug/tracing/events/net/enable
+
+echo netif_receive_skb >> /sys/kernel/debug/tracing/set_event
+echo '!netif_receive_skb' >> /sys/kernel/debug/tracing/set_event
+echo 'net:*' > /sys/kernel/debug/tracing/set_event
+echo > /sys/kernel/debug/tracing/set_event
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+
+cd /sys/kernel/debug/tracing
+echo 1 > events/net/netif_receive_skb/enable
+echo netif_receive_* > set_ftrace_filter
+echo function > current_tracer
+cat trace
+
+cd /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-kernel/hello-world-tracepoint/files/
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+KERNEL_SRC=/opt/yocto/linux-wandboard make
+
+KERNEL_SRC=/opt/yocto/fsl-community-bsp/wandboard/tmp/work-shared/wandboard/kernel-build-artifacts/ make
+
+insmod hello_world.ko
+
+cat /sys/kernel/debug/tracing/events/log_dbg/log_dbg/format
+
+cd /sys/kernel/debug/tracing
+echo 1 > events/log_dbg/log_dbg/enable
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+cat trace
+
+echo "a == \"Hello\"" > /sys/kernel/debug/tracing/events/log_dbg/log_dbg/filter
+

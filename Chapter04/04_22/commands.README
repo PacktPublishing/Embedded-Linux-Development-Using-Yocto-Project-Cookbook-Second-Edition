@@ -1,0 +1,23 @@
+cd /opt/yocto/fsl-community-bsp/sources/
+git clone git://git.yoctoproject.org/meta-virtualization
+
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-virtualization
+git checkout -b rocko origin/rocko
+
+DISTRO_FEATURES_append = " virtualization"
+
+IMAGE_ROOTFS_EXTRA_SPACE = "10000"
+
+IMAGE_INSTALL_append = " docker"
+
+bitbake core-image-minimal
+docker run hello-world
+docker run -it --rm busybox sh
+
+docker info
+docker ps -a
+docker attach <container_name>
+docker stop <container_id>
+docker rm <container_id>
+
+

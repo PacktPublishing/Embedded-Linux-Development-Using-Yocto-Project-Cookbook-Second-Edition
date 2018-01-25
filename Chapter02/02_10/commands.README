@@ -1,0 +1,40 @@
+mount -t debugfs nodev /sys/kernel/debug
+
+cat /sys/kernel/debug/tracing/available_tracers
+
+cat /sys/kernel/debug/tracing/current_tracer
+
+echo -n nop > /sys/kernel/debug/tracing/current_tracer
+
+echo -n function > /sys/kernel/debug/tracing/current_tracer
+
+echo -n function_graph > /sys/kernel/debug/tracing/current_tracer
+
+cat /sys/kernel/debug/tracing/trace_pipe
+
+echo 0 > /sys/kernel/debug/tracing/tracing_on
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+
+cat /sys/kernel/debug/tracing/available_filter_functions
+
+echo -n <function_name> >> /sys/kernel/debug/tracing/set_ftrace_filter
+
+echo -n '!<function>' >> /sys/kernel/debug/tracing/set_ftrace_filter
+
+echo > /sys/kernel/debug/tracing/set_ftrace_filter
+
+echo -n 'ipu_*:mod:ipu' > /sys/kernel/debug/tracing/set_ftrace_filter
+echo -n 'suspend_enter:dump' > /sys/kernel/debug/tracing/set_ftrace_filter
+echo -n 'suspend_enter:traceon' > /sys/kernel/debug/tracing/set_ftrace_filter
+
+echo 1 > /proc/sys/kernel/ftrace_dump_on_oops
+
+echo -n <function_name> > /sys/kernel/debug/tracing/set_ftrace_filter
+echo -n function > /sys/kernel/debug/tracing/current_tracer
+echo 1 > /sys/kernel/debug/tracing/options/func_stack_trace
+cat /sys/kernel/debug/tracing/trace
+echo 0 > /sys/kernel/debug/tracing/options/func_stack_trace
+echo > /sys/kernel/debug/tracing/set_ftrace_filter
+
+ftrace=function_graph ftrace_filter=mxc_hdmi*,fb_show*
+

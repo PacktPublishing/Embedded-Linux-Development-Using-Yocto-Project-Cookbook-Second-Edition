@@ -1,0 +1,26 @@
+bitbake-layers show-recipes htop
+
+bitbake -s | grep htop
+
+find /opt/yocto/fsl-community-bsp/sources -type f -name "htop*.bb"
+
+IMAGE_INSTALL_append = " htop"
+
+IMAGE_INSTALL_append_pn-core-image-minimal = " htop"
+
+FEATURE_PACKAGES_debug-utils = "trace-cmd perf"
+
+EXTRA_IMAGE_FEATURES += "debug-utils"
+
+bitbake custom-image
+
+ROOTFS_POSTPROCESS_COMMAND += "function1;...;functionN"
+
+bitbake -c menuconfig busybox
+bitbake -c diffconfig busybox
+
+recipetool appendsrcfile </path/to/layer> busybox </path/to/config/fragment>
+
+bitbake -e busybox | grep ^WORKDIR=
+scp ${WORKDIR}/deploy-rpms/cortexa9hf_neon/busybox-1.24.1-r0.cortexa9hf_neon.rpm root@<target_ip>:/tmp
+rpm --force -U /tmp/busybox-1.24.1-r0.cortexa9hf_neon.rpm

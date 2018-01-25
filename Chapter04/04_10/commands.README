@@ -1,0 +1,11 @@
+wget http://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz
+tar xvf hello-2.10.tar.gz
+
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linuxgnueabi
+./configure ${CONFIGURE_FLAGS}
+
+echo $CONFIGURE_FLAGS
+
+make
+make install DESTDIR=</path/to/destination/directory>
+

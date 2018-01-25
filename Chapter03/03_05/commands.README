@@ -1,0 +1,16 @@
+recipetool create -o helloworld.bb helloworld.c
+
+do_task[noexec] = "1"
+
+PACKAGECONFIG ??= "feature"
+PACKAGECONFIG[feature] = "--with-feature,--without-feature,build-deps-feature,rt-deps-feature"
+
+PACKAGECONFIG_append = " feature1 feature2"
+
+PACKAGECONFIG_pn-<package_name> = "feature1 feature2"
+PACKAGECONFIG_append_pn-<package_name> = " feature1 feature2"
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+COMPATIBLE_MACHINE = "(mxs|mx5|mx6)"
+

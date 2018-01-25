@@ -1,0 +1,8 @@
+UBOOT_EXTLINUX_KERNEL_ARGS += "maxcpus=1"
+
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+${CC} ${CFLAGS} ${LDFLAGS} perf_example.c -o perf_example
+
+chmod a+x perf_example
+./perf_example
+

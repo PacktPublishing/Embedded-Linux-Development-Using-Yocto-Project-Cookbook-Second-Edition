@@ -1,0 +1,16 @@
+probe begin
+{
+	print("Monitoring starts\n")
+	printf("%6s %6s %16s\n", "UID", "PID", "NAME");
+}
+
+probe kernel.function("sys_open")
+{
+		printf("%6d %6d %16s\n", uid(), pid(), execname());
+}
+
+probe timer.s(60)
+{
+	print("Monitoring ends\n")
+	exit()
+}

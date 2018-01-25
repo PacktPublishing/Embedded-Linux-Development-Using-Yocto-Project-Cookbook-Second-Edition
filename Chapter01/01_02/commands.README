@@ -1,0 +1,3 @@
+sudo install -o $(id -u) -g $(id -g) -d /opt/yocto
+cd /opt/yocto
+git clone --branch rocko git://git.yoctoproject.org/poky

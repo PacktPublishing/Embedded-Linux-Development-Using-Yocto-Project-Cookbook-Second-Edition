@@ -1,0 +1,4 @@
+SSTATE_MIRRORS ?= "\
+        file://.* file:///nfs/local/mount/sstate/PATH"
+
+SSTATE_MIRRORS ?= "file://.* http://example.com/some_path/sstate-cache/PATH"

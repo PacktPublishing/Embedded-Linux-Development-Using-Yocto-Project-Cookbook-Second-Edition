@@ -1,0 +1,8 @@
+DL_DIR ?= "${BSPDIR}/downloads/"
+
+INHERIT += "own-mirrors"
+SOURCE_MIRROR_URL = "http://example.com/my-source-mirror"
+
+BB_GENERATE_MIRROR_TARBALLS = "1"
+
+BB_FETCH_PREMIRRORONLY = "1"

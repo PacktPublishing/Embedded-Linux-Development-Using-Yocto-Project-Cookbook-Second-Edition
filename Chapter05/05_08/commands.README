@@ -1,0 +1,16 @@
+echo 'p:example_probe do_sys_open dfd=%r0 filename=%r1 flags=%r2 mode=%r3' > /sys/kernel/debug/tracing/kprobe_events
+
+cat /sys/kernel/debug/tracing/kprobe_events
+
+cat /sys/kernel/debug/tracing/events/kprobes/example_probe/format
+
+echo 1 > /sys/kernel/debug/tracing/events/kprobes/example_probe/enable
+cat /sys/kernel/debug/tracing/trace
+
+echo '-:example_probe' >> /sys/kernel/debug/tracing/kprobe_events
+echo > /sys/kernel/debug/tracing/kprobe_events
+
+cat /sys/kernel/debug/tracing/kprobe_profile
+
+
+

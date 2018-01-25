@@ -1,0 +1,10 @@
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake -c devshell virtual/kernel
+
+make dtbs
+
+DTC_FLAGS="-p 1024" make dtbs
+
+bitbake -c deploy -f virtual/kernel
+

@@ -1,0 +1,44 @@
+bitbake -c populate_sdk_ext <image name>
+
+SDK_EXT_TYPE = "minimal"
+SDK_INCLUDE_TOOLCHAIN = "1"
+SDK_INCLUDE_PKGDATA = "1"
+
+EXCLUDE_FROM_WORLD_pn-ffmpeg = "1"
+
+SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
+
+./poky-glibc-x86_64-core-image-minimal-cortexa9hf-neon-toolchain-ext-2.4.sh
+
+. environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+
+devtool add helloworld
+
+devtool edit-recipe helloworld
+
+devtool build helloworld
+devtool deploy-target helloworld root@<ipaddress>:/bin
+devtool build-image core-image-base
+devtool finish helloworld meta-custom
+
+devtool create-workspace <dest-path>
+devtool add <recipe-name> <source path> <fetch-uri>
+devtool search <pattern>
+devtool modify <recipe-name>
+devtool upgrade <recipe-name> <source path>
+devtool upgrade <recipe-name> --srcrev <git-sha1> --srcbranch <gitbranch> <source path>
+devtool status
+devtool reset <recipe-name>devtool deploy-target <recipe-name> <user>@<target-ip>[:<destdir>]
+devtool edit-recipe <recipe-name>
+devtool build <recipe-name>
+devtool deploy-target <recipe-name> <user>@<target-ip>[:<destdir>]
+devtool undeploy-target <recipe-name> <user>@<target-ip>[:<destdir>]
+devtool build-image -p <packages> <target-image-name>
+devtool update-recipe <recipe-name>
+devtool update-recipe --append <dest-layer-path> <recipe-name>
+devtool finish <recipe-name> <dest-layer-path>
+
+SDK_UPDATE_URL = "http://example.com/sdk"
+
+oe-publish-sdk tmp/deploy/sdk/poky-glibc-x86_64-core-image-sato-cortexa9hf-neon-toolchain-ext-2.4.sh /path/to/web/root
+devtool sdk-update <server>

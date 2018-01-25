@@ -1,0 +1,15 @@
+IMAGE_INSTALL_append = " libjava-helloworld-java"
+
+PREFERRED_PROVIDER_java2-runtime = "openjre-8"
+
+IMAGE_INSTALL_append = " openjre-8"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard-quad
+bitbake core-image-sato
+
+export DISPLAY=:0
+java -cp /usr/share/java/java-helloworld.jar
+
+
+

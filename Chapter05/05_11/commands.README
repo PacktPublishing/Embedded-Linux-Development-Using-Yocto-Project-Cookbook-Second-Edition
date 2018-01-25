@@ -1,0 +1,10 @@
+IMAGE_INSTALL_append = " systemtap"
+
+EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
+
+source setup-environment wandboard
+cd </path/to/systemtap_script/folder>
+crosstap root@<target_ip> sys_open.stp
+
+bitbake systemtap-native
+

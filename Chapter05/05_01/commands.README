@@ -1,0 +1,20 @@
+EXTRA_IMAGE_FEATURES += "dbg-pkgs"
+
+IMAGE_INSTALL_append = " <packagename>-dbg"
+
+ulimit -c unlimited
+ulimit -a
+
+wvdial -c
+kill -SEGV <wvdial-pid>
+
+echo /coredumps/core.%e.%t > /proc/sys/kernel/core_pattern
+
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+${GDB} /opt/poky/2.4/sysroots/cortexa9hf-neon-poky-linux-gnueabi/usr/bin/.debug/wvdial core
+set sysroot /opt/poky/2.4/sysroots/cortexa9hf-neon-poky-linux-gnueabi/
+bt
+
+
+
+

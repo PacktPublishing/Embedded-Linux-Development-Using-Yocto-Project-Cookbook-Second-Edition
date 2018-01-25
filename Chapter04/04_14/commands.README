@@ -1,0 +1,34 @@
+DISTRO_FEATURES_remove = "x11 directfb wayland vulkan"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake fsl-image-multimedia
+
+cd /home/root
+wget http://mirror.cessen.com/blender.org/peach/trailer/trailer_1080p.mov
+gst-launch-1.0 playbin uri=file:///home/root/trailer_1080p.mov
+
+gst-inspect-1.0 | grep imx
+
+export FRAMEBUFFER=/dev/fb1
+
+cat /dev/zero > /dev/fb0
+cat /dev/fb0 > fb.raw
+cat fb.raw > /dev/fb0
+
+fbset -fb /dev/fb0
+
+UBOOT_EXTLINUX_KERNEL_ARGS = "video=mxcfb0:dev=hdmi,1920x1080M@60"
+
+echo 0 > /sys/class/graphics/fb0/blank
+
+IMAGE_INSTALL_append = " qt-helloworld"
+
+bitbake fsl-image-multimedia
+
+export QT_QPA_PLATFORM="eglfs"
+/usr/bin/qt_hello_world
+
+PACKAGECONFIG_append_pn-qtbase = " accessibility examples fontconfig sql-sqlite icu"
+PACKAGECONFIG_append_pn-qtmultimedia = " gstreamer"
+

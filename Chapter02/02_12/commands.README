@@ -1,0 +1,19 @@
+tftp ${fdt_addr} ${fdtfile}
+
+fdt addr ${fdt_addr}
+
+fdt list /cpus
+
+fdt print /cpus
+
+fdt mknode / new-node
+fdt list /new-node
+
+fdt set /new-node testprop testvalue
+fdt print /new-node
+
+fdt rm /new-node testprop
+fdt print /new-node
+
+ls /proc/device-tree/cpus/
+

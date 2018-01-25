@@ -1,0 +1,46 @@
+cd /opt/yocto/fsl-community-bsp/sources
+find -name "*busybox*"
+
+find -name "*busybox*.bb*"
+bitbake-layers show-recipes "<package_name>"
+
+bitbake-layers show-recipes gdb*
+
+devtool search <regular expression>
+
+cd /opt/yocto/fsl-community-bsp
+source setup-environment wandboard
+bitbake <target-image>
+devtool search gdb
+
+bitbake -e | grep -w DISTRO_FEATURES
+
+bitbake -e busybox | grep ^S=
+
+bitbake -e <target> | grep ^WORKDIR=
+
+bitbake -c devshell <target>
+
+bitbake -c devpyshell <target>
+
+OE_TERMINAL = "screen"
+
+bitbake -c listtasks <target>
+bitbake -f <target>
+bitbake -c compile -f <target>
+
+bitbake --show-versions
+bitbake -v <target>
+bitbake -g <target>
+bitbake -g <target> -I glibc
+
+dot -Tps filename.dot -o outfile.ps
+
+bitbake -g -u taskexp <target>
+
+bitbake -DDD <target>
+
+INHERIT += "report-error"
+
+send-error-report ${LOG_DIR}/error-report/error-report_${TSTAMP}
+

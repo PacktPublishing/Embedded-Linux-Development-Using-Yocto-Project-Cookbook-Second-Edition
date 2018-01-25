@@ -1,0 +1,19 @@
+DISTRO_FEATURES_remove = "x11 directfb"
+
+IMAGE_INSTALL_append = " qtwayland qt-helloworld"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-weston
+
+qt_hello_world -platform wayland
+
+DISTRO = "fslc-xwayland"
+
+qt_hello_world
+
+IMAGE_INSTALL_append = " gtk-helloworld"
+
+export XDG_RUNTIME_DIR=/var/run/user/root
+helloworld
+

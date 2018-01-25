@@ -1,0 +1,20 @@
+mkdir -p meta-custom/recipes-python/python-helloworld/python-helloworld-1.0/helloworld/
+touch meta-custom/recipes-python/python-helloworld/python-helloworld-1.0/helloworld/__init__.py
+
+IMAGE_INSTALL_append = " python-helloworld"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-minimal
+
+/usr/bin/python-helloworld.py
+
+IMAGE_INSTALL_append = " python3-pip"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-minimal
+
+pip search <package_name>
+pip install <package_name>
+

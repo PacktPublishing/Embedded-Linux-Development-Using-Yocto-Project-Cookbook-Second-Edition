@@ -1,0 +1,67 @@
+This README file contains information on the contents of the custom layer as
+introduced in the "" on the "Embedded Linux Projects Using Yocto Project
+Cookbook" 2nd edition published by Packt Publishing.
+
+Please see the corresponding sections below for details.
+
+
+Dependencies
+============
+
+This layer depends on:
+
+  URI: git://git.yoctoproject.org/meta-freescale
+  branch: TBD
+
+Patches
+=======
+
+Please submit any patches against the custom layer to Packt Publishing
+via http://www.packtpub.com/submit-errata, or to the author Alex Gonzalez at
+alex<at>lindusembedded.com
+
+Table of Contents
+=================
+
+  I. Adding the custom layer to your build
+ II. Misc
+
+
+I. Adding the custom layer to your build
+=================================================
+
+In order to use this layer, you need to make the build system aware of
+it.
+
+Assuming the custom layer exists at the top-level of your
+yocto build tree, you can add it to the build system by adding the
+location of the custom layer to bblayers.conf, along with any
+other layers needed. e.g.:
+
+BBLAYERS = " \
+	${BSPDIR}/sources/poky/meta \
+	${BSPDIR}/sources/poky/meta-yocto \
+	\
+	${BSPDIR}/sources/meta-openembedded/meta-oe \
+	${BSPDIR}/sources/meta-openembedded/meta-multimedia \
+	\
+	${BSPDIR}/sources/meta-freescale \
+	${BSPDIR}/sources/meta-freescale-3rdparty \
+	${BSPDIR}/sources/meta-custom \
+"
+
+
+II. Misc
+========
+
+This layer should be used in conjuntion with the "Embedded Linux Projects
+Using Yocto Project Cookbook" 2nd edition  published by Packt Publising.
+
+The commits are named with the chapter and recipe number they belong to:
+
+CH_N: Recipe title
+
+where,
+
+CH is the chapter number
+N is the recipe number

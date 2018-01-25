@@ -1,0 +1,17 @@
+pkg_preinst_${PN} () {
+	# Shell commands
+}
+
+pkg_postinst_${PN} () {
+	if [ x"$D" = "x" ]; then
+		# Commands to execute on device
+	else
+		# Commands to execute on host
+	fi
+}
+
+if test -n "$D"; then
+	# Running on host
+else
+	# Running on target
+fi

@@ -1,0 +1,49 @@
+cd /opt/yocto/fsl-community-bsp
+source setup-environment wandboard
+bitbake core-image-minimal -c populate_sdk
+
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/sdk/
+./poky-glibc-x86_64-core-image-minimal-cortexa9hf-neon-toolchain-2.4.sh
+
+bitbake -e u-boot-fslc | grep ^SRC_URI=
+
+cd /opt/yocto/
+git clone git://github.com/Freescale/u-boot-fslc.git
+cd u-boot-fslc
+
+git checkout -b 2017.11+fslc origin/2017.11+fslc
+
+make wandboard_config
+make xconfig
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+make -jN
+
+unset LDFLAGS CFLAGS CPPFLAGS
+make CC="${CC}"
+
+sudo dd if=SPL of=/dev/sdN bs=1k seek=1 && sync
+sudo dd if=u-boot.img of=/dev/sdN bs=1k seek=69 && sync
+
+env set ipaddr <target_ip>
+env set serverip <host_ip>
+tftp ${loadaddr} SPL
+
+mmc dev 0
+mmc part
+
+setexpr filesizeblks $filesize / 0x200
+setexpr filesizeblks $filesizeblks + 1
+
+mmc write ${loadaddr} 0x2 ${filesizeblks}
+
+tftp ${loadaddr} u-boot.img
+
+setexpr filesizeblks $filesize / 0x200
+setexpr filesizeblks $filesizeblks + 1
+
+mmc write ${loadaddr} 0x8A ${filesizeblks}
+
+git add --all .
+git commit -s -m "Well thought commit message"
+
+git format-patch -1 -o /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-bsp/u-boot/u-boot-fslc-v2017.11/

@@ -1,0 +1,8 @@
+arm-poky-linux-gnueabi-objdump -d -l vmlinux | grep
+
+cat /sys/kernel/debug/kprobes/list
+
+echo 0/1 > /sys/kernel/debug/kprobes/enabled
+
+insmod kprobe_open.ko
+

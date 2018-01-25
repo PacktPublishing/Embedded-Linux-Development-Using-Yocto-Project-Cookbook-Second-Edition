@@ -1,0 +1,7 @@
+PREFERRED_PROVIDER_virtual/kernel = "linux-fslc"
+
+PREFERRED_VERSION_linux-fslc_mx6 = "4.9"
+
+PREFERRED_VERSION_linux-fslc_mx6 = "4.9%"
+
+DEFAULT_PREFERENCE = "-1"

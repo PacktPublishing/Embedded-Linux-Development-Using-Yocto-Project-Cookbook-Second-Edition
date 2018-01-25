@@ -1,0 +1,10 @@
+yocto-layer create custom
+
+bitbake-layers layerindex-fetch <layer name>
+
+bitbake-layers layerindex-show-depends <layer name>
+
+SRC_URI_append_wandboard = " file://mypatch.patch"
+
+SRC_URI_append_mx6 = " file://mypatch.patch"
+

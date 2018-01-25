@@ -1,0 +1,8 @@
+LICENSE = "CLOSED"
+
+LICENSE = "Proprietary"
+LIC_FILES_CHKSUM = "file://EULA.txt;md5=93b784b1c11b3fffb1638498a8dde3f6"
+
+LICENSE_FLAGS_WHITELIST = "commercial"
+
+LICENSE_FLAGS_WHITELIST = "commercial_gstreamer1.0-plugins-ugly"

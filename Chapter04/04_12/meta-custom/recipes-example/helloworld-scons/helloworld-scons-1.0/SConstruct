@@ -1,0 +1,3 @@
+import os
+env = Environment(CC = os.environ['CC'], LINKFLAGS = os.environ['LDFLAGS'], ENV = {'PATH': os.environ['PATH']})
+env.Program("helloworld", "helloworld.c")

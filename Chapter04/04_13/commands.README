@@ -1,0 +1,17 @@
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+
+${CC} -c hello.c world.c
+${AR} -cvq libhelloworld.a hello.o world.o
+
+${AR} -t libhelloworld.a
+${CC} -o helloworld helloworld.c -l helloworld -L libs/ -I inc/
+
+readelf -d helloworld
+
+${CC} -fPIC -g -c hello.c world.c
+${CC} -shared -Wl,-soname,libhelloworld.so.1 -o libhelloworld.so hello.o world.o
+
+${CC} -o helloworld helloworld.c -l helloworld -L libs/ -I inc/
+
+readelf -d helloworld
+

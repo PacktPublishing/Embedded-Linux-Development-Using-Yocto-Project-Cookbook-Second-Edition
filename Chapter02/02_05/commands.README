@@ -1,0 +1,31 @@
+cd /opt/yocto/fsl-community-bsp/sources
+mkdir -p meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x/wandboard-custom/
+
+cp meta-freescale-3rdparty/recipes-kernel/linux/linux-wandboard/defconfig meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x/wandboard-custom/defconfig
+
+bitbake -e virtual/kernel | grep ^SRC_URI=
+
+cd /opt/yocto/
+git clone https://github.com/wandboard-org/linux.git linux-wandboard
+cd linux-wandboard
+
+git checkout -b 4.1-2.0.x-imx origin/4.1-2.0.x-imx
+cp /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x/wandboard-custom/defconfig arch/arm/configs/wandboard_defconfig
+
+make ARCH=arm wandboard_defconfig
+make ARCH=arm xconfig
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake -c configure virtual/kernel
+
+bitbake -c menuconfig virtual/kernel
+sudo apt-get install libncurses5-dev
+
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/work/wandboard-poky-linux-gnueabi/linux-wandboard/4.1-2.0.x-r0/build
+make ARCH=arm savedefconfig
+
+cp defconfig /opt/yocto/fsl-community-bsp/sources/meta-bsp-custom/recipes-kernel/linux/linux-wandboard-4.1-2.0.x/wandboard-custom
+bitbake -c savedefconfig virtual/kernel
+
+

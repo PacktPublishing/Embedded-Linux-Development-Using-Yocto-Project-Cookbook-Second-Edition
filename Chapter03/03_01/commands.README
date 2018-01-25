@@ -1,0 +1,8 @@
+bitbake -e <package> | grep ^WORKDIR=
+
+FILES_${PN} += "${bindir}/file.bin"
+
+FILES_${PN}-dev += "${libdir}/lib.so"
+
+bitbake -e core-image-minimal | grep ^IMAGE_ROOTFS=
+

@@ -1,0 +1,23 @@
+EXTRA_IMAGE_FEATURES += "tools-debug"
+
+EXTRA_IMAGE_FEATURES += "dbg-pkgs"
+
+bitbake -c populate_sdk core-image-minimal
+
+gdbserver localhost:1234 /usr/bin/wvdial -c
+
+cd /opt/poky/2.4/
+source environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+
+${GDB} /opt/poky/2.4/sysroots/cortexa9hf-neon-poky-linux-gnueabi/usr/bin/.debug/wvdial
+set auto-load safe-path /
+handle SIGILL nostop
+
+target remote <target_ip>:1234
+set sysroot /opt/poky/2.4/sysroots/cortexa9hf-neon-poky-linux-gnueabi/
+
+kill -SEGV <wvdial-pid>
+bt
+
+DEBUG_BUILD = "1"
+

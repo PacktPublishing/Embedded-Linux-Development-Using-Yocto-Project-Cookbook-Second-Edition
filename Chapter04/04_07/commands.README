@@ -1,0 +1,23 @@
+. /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+qmake -project
+qmake
+make
+
+QT += widgets
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+
+PACKAGECONFIG_append_pn-qtbase = " fontconfig examples"
+IMAGE_INSTALL_append = " qtbase-examples"
+
+bitbake core-image-sato
+
+DISPLAY=:0 qt_hello_world
+
+IMAGE_INSTALL_append = " openssh-sftp-server"
+
+EXTRA_IMAGE_FEATURES += "qtcreator-debug"
+
+EXTRA_IMAGE_FEATURES += "qtcreator-debug ssh-serveropenssh "
+

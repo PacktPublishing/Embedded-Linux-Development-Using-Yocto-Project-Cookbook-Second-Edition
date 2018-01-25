@@ -1,0 +1,21 @@
+cd /opt/yocto/fsl-community-bsp/sources/
+git clone git://git.yoctoproject.org/meta-java
+
+bitbake-layers add-layer /opt/yocto/fsl-community-bsp/sources/meta-java
+
+PREFERRED_PROVIDER_virtual/java-initial-native = "cacao-initial-native"
+PREFERRED_PROVIDER_virtual/java-native = "jamvm-native"
+PREFERRED_PROVIDER_virtual/javac-native = "ecj-bootstrap-native"
+
+IMAGE_INSTALL_append = " openjre-8"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-minimal
+
+java -version
+
+sudo apt-get install openjdk-8-jdk
+javac HelloWorld.java
+java HelloWorld
+

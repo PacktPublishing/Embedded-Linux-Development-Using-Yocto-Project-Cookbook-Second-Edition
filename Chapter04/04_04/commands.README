@@ -1,0 +1,37 @@
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+java -version
+
+wget -O eclipse-cpp-oxygen-1a-linux-gtk-x86_64.tar.gz "http://mirror.kumi.systems/eclipse/technology/epp/downloads/release/oxygen/1a/eclipse-cpp-oxygen-1a-linux-gtk-x86_64.tar.gz"
+
+tar xvf eclipse-cpp-neon-3-linux-gtk-x86_64.tar.gz
+
+nohup eclipse/eclipse &
+
+http://downloads.yoctoproject.org/releases/eclipse-plugin/2.4/oxygen
+
+/opt/poky/2.4
+/opt/poky/2.4/sysroots/armv5e-poky-linux-gnueabi
+armv5e-poky-linux-gnueabi
+
+/opt/poky/2.4/sysroots/armv5e-poky-linux-gnueabi/zImage-qemuarm.bin
+
+http://downloads.yoctoproject.org/releases/yocto/yocto-2.4/machines/qemu/qemuarm/core-image-sato-sdk-qemuarm.qemuboot.conf
+http://downloads.yoctoproject.org/releases/yocto/yocto-2.4/machines/qemu/qemuarm/zImage-qemuarm.bin
+http://downloads.yoctoproject.org/releases/yocto/yocto-2.4/machines/qemu/qemuarm/zImage-versatile-pb.dtb
+http://downloads.yoctoproject.org/releases/yocto/yocto-2.4/machines/qemu/qemuarm/core-image-sato-sdk-qemuarm.ext4
+
+cd /opt/yocto/fsl-community-bsp
+source setup-environment wandboard
+bitbake meta-ide-support
+
+/opt/yocto/fsl-community-bsp/wandboard
+/opt/yocto/fsl-community-bsp/wandboard/tmp/sysroots/wandboard
+
+EXTRA_IMAGE_FEATURES += "eclipse-debug"
+
+
+
+

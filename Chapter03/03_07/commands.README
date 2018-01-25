@@ -1,0 +1,6 @@
+mkpasswd password
+
+USERADDEXTENSION = "useradd-staticids"
+
+USERADD_ERROR_DYNAMIC = "error"
+

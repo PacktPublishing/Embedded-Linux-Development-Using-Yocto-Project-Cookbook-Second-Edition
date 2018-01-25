@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: helloworld
+Description: The helloworld library
+Version: 1.0.0
+Cflags: -I${includedir}/helloworld
+Libs: -L${libdir} libhelloworld.a

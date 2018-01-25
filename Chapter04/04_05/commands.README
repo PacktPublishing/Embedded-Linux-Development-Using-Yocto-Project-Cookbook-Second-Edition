@@ -1,0 +1,26 @@
+EXTRA_IMAGE_FEATURES += "eclipse-debug"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-sato
+
+bitbake -c populate_sdk core-image-sato
+
+cd tmp/deploy/sdk
+./poky-glibc-x86_64-core-image-sato-cortexa9hf-neon-toolchain-2.4.sh
+
+source /opt/poky/2.4/environment-setup-cortexa9hf-neon-poky-linux-gnueabi
+${CC} gtk_hello_world.c -o helloworld `pkg-config --cflags --libs gtk+-3.0`
+
+DISPLAY=:0 helloworld
+
+PKG_CHECK_MODULES(helloworld, glib-2.0 gtk+-3.0)
+
+export DISPLAY=:0
+
+ps w | grep tcf
+
+/opt/poky/2.4/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gdb
+
+
+

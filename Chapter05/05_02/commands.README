@@ -1,0 +1,23 @@
+EXTRA_IMAGE_FEATURES += "dbg-pkgs tools-debug"
+
+EXTRA_IMAGE_FEATURES += "tools-sdk dbg-pkgs tools-debug"
+
+PACKAGE_DEBUG_SPLIT_STYLE = "debug-without-src"
+
+cd /opt/yocto/fsl-community-bsp/
+source setup-environment wandboard
+bitbake core-image-minimal-dev
+
+gdb --args wvdial -c
+run
+info inferiors
+bt
+c
+
+kill -SEGV <wvdial-pid>
+
+bt
+
+DEBUG_BUILD = "1"
+
+

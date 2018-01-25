@@ -1,0 +1,46 @@
+IMAGE_INSTALL_append = " lttng-tools lttng-modules lttng-ust"
+
+EXTRA_IMAGE_FEATURES += "tools-profile"
+
+lttng create test-session
+lttng enable-event --kernel sched_switch,sched_process_fork
+lttng list --kernel
+lttng start
+ping -c 1 192.168.1.1
+lttng stop
+lttng destroy
+babeltrace /home/root/lttng-traces/test-session-20171213-201520
+
+lttng create test-user-session
+lttng enable-event -u -a
+lttng start
+helloworld
+lttng stop
+lttng view
+lttng destroy test-user-session
+
+lttng enable-event <comma separated event list> -k
+lttng enable-event -a -k --tracepoint
+lttng enable-event -a -k --syscall
+lttng enable-event -a -k
+
+lttng enable-event <probe_name> -k --probe <symbol>+<offset>
+lttng enable-event <probe_name> -k --probe <address>
+lttng enable-event <probe_name> -k --function <symbol>
+
+lttng add-context -t perf:cpu:cpu-cycles -k
+
+EXTRA_IMAGE_FEATURES += "tools-sdk dev-pkgs"
+
+lttng-gen-tp hw.tp
+gcc -o hw helloworld.c hw.o -llttng-ust -ldl
+
+EXTRA_IMAGE_FEATURES = "tools-sdk dev-pkgs"
+
+lttng create test-session
+lttng enable-event --userspace
+lttng start
+./hw
+lttng view
+lttng destroy test-session
+

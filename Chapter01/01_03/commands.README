@@ -1,0 +1,9 @@
+cd /opt/yocto/poky
+source oe-init-build-env qemuarm
+
+BB_SERVER_TIMEOUT = "n"
+
+cd /opt/yocto/poky/qemuarm
+rm -Rf tmp sstate-cache
+
+TEMPLATECONF=meta-custom/config source oe-init-build-env <build-dir>

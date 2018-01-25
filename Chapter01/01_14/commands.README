@@ -1,0 +1,65 @@
+EXTRA_IMAGE_FEATURES += "package-management"
+
+PRSERV_HOST = "localhost:0"
+
+bitbake-prserv --host <server_ip> --port <port> --start
+
+PRSERV_HOST = "<server_ip>:<port>"
+
+sudo apt-get install lighttpd
+sudo ln -s /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/rpm /var/www/html/rpm
+sudo service lighttpd reload
+
+cd /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/rpm
+sudo python -m SimpleHTTPServer 80
+
+bitbake package-index
+
+rsync -r -u /opt/yocto/fsl-community-bsp/wandboard/tmp/deploy/rpm/* <new_dir>/
+sudo apt-get install createrepo
+createrepo <new_dir>
+
+bitbake createrepo-c-native -c addto_recipe_sysroot
+oe-run-native createrepo-c-native createrepo_c <new_dir>
+
+mkdir -p /etc/yum.repos.d
+vi /etc/yum.repos.d/yocto.repo
+
+dnf --nogpgcheck makecache
+dnf --nogpgcheck search <package_name>
+dnf --nogpgcheck install <package_name>
+
+gpgcheck=0
+
+PACKAGE_FEED_URIS = "http://<server_ip>/"
+PACKAGE_FEED_BASE_PATHS = "rpm"
+
+INHERIT += "sign_rpm"
+
+INHERIT += "sign_ipk"
+
+RPM_GPG_NAME = "<key ID>"
+RPM_GPG_PASSPHRASE = "<key passphrase>"
+
+IPK_GPG_NAME = "<key ID>"
+IPK_GPG_PASSPHRASE_FILE = "<path/to/passphrase/file>"
+
+INHERIT += "sign_package_feed"
+PACKAGE_FEED_GPG_NAME = "<key name>"
+PACKAGE_FEED_GPG_PASSPHRASE_FILE = "<path/to/passphrase/file>"
+
+sudo apt-get install gnupg
+gpg --gen-key
+gpg --list-keys
+
+gpg --output rpm-feed.gpg --export <id>
+
+bitbake package-index
+
+gpg --output rpm-feed.pub --armor --export <key id>
+gpg --output rpm-feed.sec --armor --export-secret-key <key id>
+
+gpg --import rpm-feed.pub
+gpg --allow-secret-key-import --import rpm-feed.sec
+
+

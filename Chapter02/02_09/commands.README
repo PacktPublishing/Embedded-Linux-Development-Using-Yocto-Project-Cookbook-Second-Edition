@@ -1,0 +1,20 @@
+extern void printascii(const char *);
+printascii("Literal string\n");
+
+early_print("%08x\t%s\n", p->nr, p->name);
+
+grep __log_buf System.map
+
+echo b > /proc/sysrq-trigger
+
+md.l 0x10c37864
+
+ramoops.mem_address=0x30000000 ramoops.mem_size=0x200000
+
+pstore /pstore pstore defaults 0 0
+
+mkdir /pstore
+mount /pstore
+
+echo b > /proc/sysrq-trigger
+

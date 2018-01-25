@@ -1,0 +1,20 @@
+This code bundle should be used in conjuntion with the "Embedded Linux Projects
+Using Yocto Project Cookbook" 2nd edition published by Packt Publising.
+
+The directories are named with the chapter and recipe number they belong to:
+
+CH_N
+
+where,
+
+CH is the chapter number
+N is the recipe number
+
+Inside the chapter directories there is:
+
+* Source code
+* Metadata inside the meta-bsp-custom and meta-custom directories
+* Command line and configuration lines inside the 'commands.README' file
+* local.conf and bblayers.conf files when applicable inside the conf/ directory
+
+Please forward erratas to http://www.packtpub.com/submit-errata

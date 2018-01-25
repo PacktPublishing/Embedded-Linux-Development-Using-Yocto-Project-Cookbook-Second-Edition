@@ -1,0 +1,56 @@
+IMAGE_INSTALL_append = " perf"
+
+EXTRA_IMAGE_FEATURES += "tools-profile"
+
+INHIBIT_PACKAGE_STRIP = "1"
+EXTRA_IMAGE_FEATURES += "dbg-pkgs"
+
+PACKAGE_DEBUG_SPLIT_STYLE = 'debug-file-directory'
+DEBUG_INFO = "1"
+
+perf stat <command>
+perf stat ping -c 1 192.168.1.1
+
+perf record <command>
+perf record -g -- ping -c 5 <ip address>
+
+perf report
+perf record --call-graph dwarf -- ping -c 5 <ip address>
+
+perf report --stdio
+
+perf annotate -d <command>
+
+perf stat -a sleep 5
+
+perf record -a -g -- sleep 5
+
+perf list
+
+perf list '<subsystem>:*'
+
+perf stat -e r3 sleep 5
+
+perf script
+
+perf script -g python
+
+perf script -s perf-script.py
+
+IMAGE_INSTALL_append = " perf-python"
+
+perf probe --add "tcp_sendmsg"
+perf record -e probe:tcp_sendmsg -a -g -- wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.4/RELEASENOTES
+
+perf report
+
+perf probe --del tcp_sendmsg
+
+perf timechart record -- <command> <arguments>
+
+perf timechart
+
+perf trace record <command>
+
+
+
